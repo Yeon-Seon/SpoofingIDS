@@ -69,5 +69,3 @@ class SZ:
             self.screen()
 
             print('Number of connected devices : {}'.format(len(self.client)))
-
-- seize.py 72/72 100%
