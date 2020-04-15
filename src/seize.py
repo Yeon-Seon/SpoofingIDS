@@ -14,14 +14,14 @@ class SZ:
 
     def wifi_device(self):
         data = subprocess.check_output('./device.sh', shell=True)
-        self.connect_device = data.split('\n')[:-1]                                     #connect_device에 현재 연결되있는 device data 저장
+        self.connect_device = data.split('\n')[:-1]
 
-        if sorted(self.connect_device) != sorted(self.continue_device):                 #이전의 device정보와 비교
-            device = list(set(self.connect_device) - set(self.continue_device))         #새로운 device가 추가 됐을 때
+        if sorted(self.connect_device) != sorted(self.continue_device):
+            device = list(set(self.connect_device) - set(self.continue_device))
             flag = True
 
             if not device:
-                device = list(set(self.continue_device) - set(self.connect_device))     #기존 device가 사라졌을 때
+                device = list(set(self.continue_device) - set(self.connect_device))
                 flag = False
 
             self.parse(device, flag)
@@ -30,19 +30,19 @@ class SZ:
         for dev in device:
             data = dev.split()
 
-            if flag is True:                                                            #새로운 device가 추가 됐을 때
-                ip = data[0]        
+            if flag is True:
+                ip = data[0]
                 mac = data[1]
                 host = data[2]
                 connect_time = time.strftime('%Y-%m-%d %H:%M:%S')
                 start_time = time.time()
 
-                self.client[mac] = [ip, host, connect_time, start_time]                 #client의 value값에 저장
-            else:                                                                       #기존 device가 사라졌을 때 
-                mac = data[1]                                                           
-                del self.client[mac]                                                    #client dict에서 삭제
+                self.client[mac] = [ip, host, connect_time, start_time]
+            else:
+                mac = data[1]
+                del self.client[mac]
 
-        self.continue_device = self.connect_device                                      #현재 연결되어있는 device의 정보를 저장
+        self.continue_device = self.connect_device
 
     def reset(self):
         os.system('clear')
